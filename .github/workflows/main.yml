@@ -2,7 +2,7 @@ name: deploy_to_firebase_hosting
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
@@ -23,7 +23,7 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: dist
-          path: dist
+          path: build
   deploy:
     name: Deploy
     needs: build
@@ -41,6 +41,3 @@ jobs:
           args: deploy --only hosting
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-
-
-  
