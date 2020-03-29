@@ -1,5 +1,5 @@
-import React, { ReactElement, useState } from 'react'
-import { Card, Grid } from 'semantic-ui-react'
+import React, { ReactElement } from 'react'
+import { Grid, Segment, Header } from 'semantic-ui-react'
 import { Footer } from './Footer'
 import { GoogleSignUpButton } from './GoogleSignUpButton'
 import { SignUpForm } from './SignUpForm'
@@ -15,9 +15,12 @@ export default function SignUpPage(): ReactElement {
   } = useSignUp()
 
   return (
-    <Grid centered>
-      <Card>
-        <Card.Content>
+    <Grid textAlign="center" style={{ height: '100vh' }} verticalAlign="middle">
+      <Grid.Column style={{ maxWidth: 450 }} textAlign="left">
+        <Header as="h2" color="grey" textAlign="center">
+          Register a new account
+        </Header>
+        <Segment stacked>
           <SignUpForm
             data={formData}
             error={error}
@@ -25,11 +28,13 @@ export default function SignUpPage(): ReactElement {
             onChange={onInputChange}
             onSubmit={signUpWithEmailAndPassword}
           />
-          <p>or</p>
+          <Header textAlign="center" as="h4">
+            or
+          </Header>{' '}
           <GoogleSignUpButton />
-          <Footer />
-        </Card.Content>
-      </Card>
+        </Segment>
+        <Footer />
+      </Grid.Column>
     </Grid>
   )
 }

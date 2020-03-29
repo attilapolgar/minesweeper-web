@@ -49,10 +49,10 @@ export function SignUpForm({
 
       <Message error header="Ooopsz" content={error} />
 
-      <Button primary animated type="submit" fluid>
+      <Button primary animated="vertical" type="submit" fluid>
         <Button.Content visible>Sign up</Button.Content>
         <Button.Content hidden>
-          <Icon name="arrow up" />
+          <Icon name="signup" />
         </Button.Content>
       </Button>
     </Form>

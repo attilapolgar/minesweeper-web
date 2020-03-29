@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react'
 
-import { Card, Grid } from 'semantic-ui-react'
+import { Grid, Header, Segment } from 'semantic-ui-react'
 import useSignIn from './useSignIn'
 import { LoginForm } from './LoginForm'
 import { GoogleLoginButton } from './GoogleLoginButton'
@@ -17,9 +17,12 @@ export default function SignInPage(): ReactElement {
   } = useSignIn()
 
   return (
-    <Grid centered>
-      <Card>
-        <Card.Content>
+    <Grid textAlign="center" style={{ height: '100vh' }} verticalAlign="middle">
+      <Grid.Column style={{ maxWidth: 450 }} textAlign="left">
+        <Header as="h2" color="grey" textAlign="center">
+          Log-in to your account
+        </Header>
+        <Segment stacked>
           <LoginForm
             data={formData}
             onSubmit={signInWithEmailAndPassword}
@@ -27,11 +30,13 @@ export default function SignInPage(): ReactElement {
             error={error}
             loading={loading}
           />
-          <p>or</p>
+          <Header textAlign="center" as="h4">
+            or
+          </Header>
           <GoogleLoginButton onPress={signInWithGoogle} />
-          <Footer />
-        </Card.Content>
-      </Card>
+        </Segment>
+        <Footer />
+      </Grid.Column>
     </Grid>
   )
 }

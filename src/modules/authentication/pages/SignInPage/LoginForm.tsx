@@ -17,8 +17,14 @@ export function LoginForm({
   data: SignInFormData
 }): ReactElement {
   return (
-    <Form onSubmit={onSubmit} error={!!error} loading={loading}>
+    <Form
+      onSubmit={onSubmit}
+      error={!!error}
+      loading={loading}
+      textAlign="left"
+    >
       <Form.Input
+        style={{ textAlign: 'left' }}
         required
         label="Email"
         type="email"
@@ -27,7 +33,6 @@ export function LoginForm({
         placeholder="email address"
         value={data.email}
       />
-
       <Form.Input
         required
         label="Password"
@@ -37,9 +42,7 @@ export function LoginForm({
         placeholder="password"
         value={data.password}
       />
-
-      <Message error header="Ooopsz" content={error} />
-
+      <Message error header="Ooops" content={error} />
       <SignInButton />
     </Form>
   )
@@ -49,7 +52,7 @@ const SignInButton = (): ReactElement => (
   <Button primary animated="vertical" type="submit" fluid>
     <Button.Content visible>Sign in</Button.Content>
     <Button.Content hidden>
-      <Icon name="arrow right" />
+      <Icon name="sign in" />
     </Button.Content>
   </Button>
 )

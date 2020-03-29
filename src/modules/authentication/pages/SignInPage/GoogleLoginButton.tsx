@@ -8,10 +8,10 @@ export function GoogleLoginButton({
 }): ReactElement {
   return (
     <Button color="google plus" fluid onClick={onPress} animated="fade">
-      <Button.Content visible>
+      <Button.Content hidden>
         <Icon name="google" />
       </Button.Content>
-      <Button.Content hidden>Sign in with Google</Button.Content>
+      <Button.Content visible>Sign in with Google</Button.Content>
     </Button>
   )
 }

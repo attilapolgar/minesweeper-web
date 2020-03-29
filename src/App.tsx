@@ -16,11 +16,6 @@ export default function App(): ReactElement {
   ) : (
     <Router>
       <div>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
         <Switch>
           <Route path={AuthenticationRoutes.SIGNUP}>
             <SignUpPage />

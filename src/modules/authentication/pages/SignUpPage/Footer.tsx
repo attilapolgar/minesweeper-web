@@ -1,17 +1,16 @@
 import React, { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
-import { Divider } from 'semantic-ui-react'
 
 import { AuthenticationRoutes } from '../../authentication.routes'
+import { Message } from 'semantic-ui-react'
 
 export function Footer(): ReactElement {
   return (
-    <>
-      <Divider />
+    <Message>
       <p>
         Already have an account?{' '}
         <Link to={AuthenticationRoutes.SIGNIN}>Sign in here</Link>
       </p>
-    </>
+    </Message>
   )
 }
