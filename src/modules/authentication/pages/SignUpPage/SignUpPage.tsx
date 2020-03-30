@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react'
 import { Grid, Segment, Header } from 'semantic-ui-react'
 import { Footer } from './Footer'
 import { GoogleSignUpButton } from './GoogleSignUpButton'
-import { SignUpForm } from './SignUpForm'
+import { SignUpForm } from './Form'
 import useSignUp from './useSignUp'
 
 export default function SignUpPage(): ReactElement {
@@ -16,7 +16,7 @@ export default function SignUpPage(): ReactElement {
 
   return (
     <Grid textAlign="center" style={{ height: '100vh' }} verticalAlign="middle">
-      <Grid.Column style={{ maxWidth: 450 }} textAlign="left">
+      <Grid.Column style={{ maxWidth: 350 }} textAlign="left">
         <Header as="h2" color="grey" textAlign="center">
           Register a new account
         </Header>

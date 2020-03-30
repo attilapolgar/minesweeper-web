@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react'
 
 import { Grid, Header, Segment } from 'semantic-ui-react'
 import useSignIn from './useSignIn'
-import { LoginForm } from './LoginForm'
+import { LoginForm } from './Form'
 import { GoogleLoginButton } from './GoogleLoginButton'
 import { Footer } from './Footer'
 
@@ -18,7 +18,7 @@ export default function SignInPage(): ReactElement {
 
   return (
     <Grid textAlign="center" style={{ height: '100vh' }} verticalAlign="middle">
-      <Grid.Column style={{ maxWidth: 450 }} textAlign="left">
+      <Grid.Column style={{ maxWidth: 350 }} textAlign="left">
         <Header as="h2" color="grey" textAlign="center">
           Log-in to your account
         </Header>

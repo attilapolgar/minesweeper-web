@@ -20,15 +20,6 @@ export function SignUpForm({
     <Form onSubmit={onSubmit} error={!!error} loading={loading}>
       <Form.Input
         required
-        label="Display name"
-        value={data.name}
-        name="name"
-        placeholder="display name"
-        onChange={onChange}
-      />
-
-      <Form.Input
-        required
         label="Email"
         type="email"
         name="email"

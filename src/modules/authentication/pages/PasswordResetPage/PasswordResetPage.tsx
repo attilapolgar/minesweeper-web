@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react'
 import { Grid, Segment, Header } from 'semantic-ui-react'
 
 import { Footer } from './Footer'
-import { PasswordResetForm } from './PasswordResetForm'
+import { PasswordResetForm } from './Form'
 import { usePasswordReset } from './usePasswordReset'
 
 export default function PasswordResetPage(): ReactElement {
@@ -16,7 +16,7 @@ export default function PasswordResetPage(): ReactElement {
   } = usePasswordReset()
   return (
     <Grid textAlign="center" style={{ height: '100vh' }} verticalAlign="middle">
-      <Grid.Column style={{ maxWidth: 450 }} textAlign="left">
+      <Grid.Column style={{ maxWidth: 350 }} textAlign="left">
         <Header as="h2" color="grey" textAlign="center">
           Reset your password
         </Header>
