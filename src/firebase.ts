@@ -10,7 +10,7 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_FIREBASE_WEBAPP_MEASUREMENT_ID,
   messagingSenderId: process.env.REACT_APP_FIREBASE_WEBAPP_MESSAGING_SENDER_ID,
   projectId: process.env.REACT_APP_FIREBASE_WEBAPP_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_FIREBASE_WEBAPP_SROTAGE_BUCKET,
+  storageBucket: process.env.REACT_APP_FIREBASE_WEBAPP_STORAGE_BUCKET,
 }
 
 firebase.initializeApp(firebaseConfig)
