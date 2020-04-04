@@ -2,7 +2,7 @@ import firebase, { User } from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_WEBAPP_API_KEY,
   appId: process.env.REACT_APP_FIREBASE_WEBAPP_APP_ID,
   authDomain: process.env.REACT_APP_FIREBASE_WEBAPP_AUTH_DOMAIN,
