@@ -6,7 +6,7 @@ import React, {
   ReactElement,
 } from 'react'
 
-import { auth } from '../firebase'
+import { auth } from '../services/firebase'
 import { User } from 'firebase'
 
 type Props = {
