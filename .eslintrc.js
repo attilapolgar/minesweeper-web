@@ -18,7 +18,8 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    'react/no-unescaped-entities': 'warn',
+    "@typescript-eslint/no-use-before-define":"off",
+    'react/no-unescaped-entities': 'off',
   },
   settings: {
     react: {

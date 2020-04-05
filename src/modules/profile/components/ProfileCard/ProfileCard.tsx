@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, ChangeEvent } from 'react'
+import React, { ReactElement, useState, ChangeEvent, useEffect } from 'react'
 import { useUser, useFirestore, useFirestoreDocData } from 'reactfire'
 import { Form, Button, Card, Image, InputOnChangeData } from 'semantic-ui-react'
 import { User as FirebaseUser } from 'firebase'
@@ -11,13 +11,20 @@ export default function ProfileCard(): ReactElement {
   const userDetailsRef = useFirestore()
     .collection(Collections.USERS)
     .doc(user.uid)
-  const { name, description }: User = useFirestoreDocData(userDetailsRef)
-  const [editMode, setEditMode] = useState(!name)
-  const [localData, setLocalData] = useState({ name, description })
+  const { name, description, avatarUrl }: User = useFirestoreDocData(
+    userDetailsRef,
+  )
+  const [editMode, setEditMode] = useState(false)
+  const [localData, setLocalData] = useState({
+    name,
+    description,
+    avatarUrl,
+  })
   function handleSave(): void {
     userDetailsRef.set({
       name: localData.name,
       description: localData.description,
+      avatarUrl: `https://avatars.dicebear.com/v2/gridy/${localData.name}.svg?options[colorful]=1`,
     })
     setEditMode(false)
   }
@@ -29,18 +36,25 @@ export default function ProfileCard(): ReactElement {
     setLocalData((prev) => ({ ...prev, [name]: value }))
   }
 
+  useEffect(() => {
+    setLocalData((prev) => ({
+      ...prev,
+      avatarUrl: `https://avatars.dicebear.com/v2/gridy/${localData.name}.svg?options[colorful]=1`,
+    }))
+  }, [localData.name])
+
   function handleEdit(): void {
     setEditMode(true)
   }
 
   function handleCancel(): void {
     setEditMode(false)
-    setLocalData({ name, description })
+    setLocalData({ name, description, avatarUrl })
   }
 
   return (
     <Card style={{ textAlign: 'left' }}>
-      <Image src="https://react.semantic-ui.com/images/avatar/large/matthew.png" />
+      <Image src={localData.avatarUrl} />
       <Card.Content>
         <Card.Header>
           {editMode ? (
@@ -67,8 +81,10 @@ export default function ProfileCard(): ReactElement {
               placeholder="motto"
               onChange={handleChange}
             />
+          ) : description ? (
+            description
           ) : (
-            description || `${name} has no motto.`
+            `${name} has no motto.`
           )}
         </Card.Description>
       </Card.Content>
