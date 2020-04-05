@@ -1,23 +1,36 @@
-import React, { ReactElement, useContext } from 'react'
+import React, { ReactElement } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { AuthCheck } from 'reactfire'
 
 import SignInPage from './modules/authentication/pages/SignInPage'
 import ProfilePage from './modules/profile/pages/ProfilePage'
-import { AuthenticationRoutes } from './modules/authentication/authentication.routes'
-import { UserContext } from './providers/UserProvider'
+import { ProtectedRoutes } from './modules/protected/protected.routes'
+import LobbyPage from './modules/lobby/pages/LobbyPage'
+import { auth } from './services/firebase'
+import AppHeader from './components/AppHeader'
+import MatchesPage from './modules/game/pages/MatchesPage'
+import MatchPage from './modules/game/pages/MatchPage'
 
 export default function App(): ReactElement {
-  const user = useContext(UserContext)
-
-  return user ? (
-    <ProfilePage />
-  ) : (
-    <Router>
-      <Switch>
-        <Route path={AuthenticationRoutes.SIGNIN}>
-          <SignInPage />
-        </Route>
-      </Switch>
-    </Router>
+  return (
+    <AuthCheck fallback={<SignInPage />} auth={auth}>
+      <Router>
+        <AppHeader />
+        <Switch>
+          <Route exact path={ProtectedRoutes.LOBBY}>
+            <LobbyPage />
+          </Route>
+          <Route exact path={ProtectedRoutes.PROFILE}>
+            <ProfilePage />
+          </Route>
+          <Route path={ProtectedRoutes.MATCHES}>
+            <MatchesPage />
+          </Route>
+          <Route path={ProtectedRoutes.MATCH}>
+            <MatchPage />
+          </Route>
+        </Switch>
+      </Router>
+    </AuthCheck>
   )
 }
