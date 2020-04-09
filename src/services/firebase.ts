@@ -1,6 +1,7 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
+import { generateAvatarUrl } from '../modules/profile/profile.utils'
 
 export const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_WEBAPP_API_KEY,
@@ -22,3 +23,29 @@ export enum Collections {
   MATCHES = 'matches',
   USERS = 'users',
 }
+
+auth.onAuthStateChanged(async (user) => {
+  try {
+    if (!!user && !user.isAnonymous) {
+      const ref = firebase
+        .firestore()
+        .collection(Collections.USERS)
+        .doc(user.uid)
+
+      const data = await ref.get()
+
+      if (!data.exists) {
+        const name = user.displayName || 'NoName'
+        const avatarUrl = generateAvatarUrl(name)
+        const description = ''
+        const created = firebase.firestore.FieldValue.serverTimestamp()
+
+        ref.set({ name, description, avatarUrl, created })
+      } else {
+        console.log('useCreateUserData: has user data', user.uid)
+      }
+    }
+  } catch (error) {
+    console.log('error', error)
+  }
+})

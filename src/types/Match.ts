@@ -1,3 +1,5 @@
+import { TimeStamp } from './TimeStamp'
+
 export enum MatchStatus {
   WAITING = 'WAITING',
   READY_TO_START = 'READY_TO_START',
@@ -10,8 +12,4 @@ export type Match = {
   owner: string
   status: MatchStatus
   created: TimeStamp
-}
-
-type TimeStamp = {
-  toDate: Function
 }
