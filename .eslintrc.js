@@ -11,6 +11,7 @@ module.exports = {
   env: {
     browser: true,
     node: true,
+    "jest": true,
   },
   plugins: ['jsx-a11y'],
   parserOptions: {
@@ -18,7 +19,8 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    "@typescript-eslint/no-use-before-define":"off",
+    '@typescript-eslint/no-use-before-define': 'off',
+    '@typescript-eslint/no-unused-vars': 'error',
     'react/no-unescaped-entities': 'off',
   },
   settings: {
@@ -26,4 +28,5 @@ module.exports = {
       version: 'detect',
     },
   },
+
 };
