@@ -1,8 +1,9 @@
 import React, { ReactElement } from 'react'
 import { useFirestore, useFirestoreDocDataOnce } from 'reactfire'
-import { Collections } from '../../../../../services/firebase'
-import { User } from '../../../../../types/User'
 import { Label } from 'semantic-ui-react'
+import { useHistory } from 'react-router-dom'
+import { Collections } from '../../../../services/firebase'
+import { User } from '../../../../types/User'
 
 export default function ProfileBadge({
   id,
@@ -11,10 +12,15 @@ export default function ProfileBadge({
   id: string
   owner: boolean
 }): ReactElement {
+  const history = useHistory()
   const ref = useFirestore().collection(Collections.USERS).doc(id)
   const { name = 'Anonymous', avatarUrl }: User = useFirestoreDocDataOnce(ref)
+
+  function handleClick() {
+    history.push(`/profile/${id}`)
+  }
   return (
-    <Label image style={{ cursor: 'default' }}>
+    <Label as="a" image onClick={handleClick}>
       {avatarUrl && <img src={avatarUrl} alt="avatar" />}
       {name}
       {owner ? (
