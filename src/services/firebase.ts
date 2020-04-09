@@ -1,4 +1,4 @@
-import firebase, { User } from 'firebase/app'
+import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
 
@@ -18,30 +18,7 @@ firebase.initializeApp(firebaseConfig)
 export const auth = firebase.auth()
 export const firestore = firebase.firestore()
 
-const provider = new firebase.auth.GoogleAuthProvider()
-
-export const signInWithGoogle = (): void => {
-  auth.signInWithPopup(provider)
-}
-
-export const generateUserDocument = async (
-  user: User,
-  additionalData: object,
-): Promise<void> => {
-  if (!user) return
-  const userRef = firestore.doc(`users/${user.uid}`)
-  const snapshot = await userRef.get()
-  if (!snapshot.exists) {
-    const { email, displayName, photoURL } = user
-    try {
-      await userRef.set({
-        displayName,
-        email,
-        photoURL,
-        ...additionalData,
-      })
-    } catch (error) {
-      console.error('Error creating user document', error)
-    }
-  }
+export enum Collections {
+  MATCHES = 'matches',
+  USERS = 'users',
 }
