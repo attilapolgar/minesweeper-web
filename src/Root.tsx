@@ -1,10 +1,11 @@
 import React, { ReactElement } from 'react'
-
-import App from './App'
-import { FirebaseAppProvider, SuspenseWithPerf } from 'reactfire'
-import { firebaseConfig } from './services/firebase'
-import AppLoader from './components/AppLoader'
+import { FirebaseAppProvider, SuspenseWithPerf, AuthCheck } from 'reactfire'
 import { Grid } from 'semantic-ui-react'
+
+import { firebaseConfig, auth } from './services/firebase'
+import App from './App'
+import AppLoader from './components/AppLoader'
+import SignInPage from './modules/authentication/pages/SignInPage'
 
 export default function Root(): ReactElement {
   return (
@@ -13,7 +14,9 @@ export default function Root(): ReactElement {
         <SuspenseWithPerf fallback={<AppLoader />} traceId="app_load">
           <Grid centered>
             <Grid.Column width={10}>
-              <App />
+              <AuthCheck fallback={<SignInPage />} auth={auth}>
+                <App />
+              </AuthCheck>
             </Grid.Column>
           </Grid>
         </SuspenseWithPerf>

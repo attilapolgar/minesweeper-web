@@ -7,6 +7,7 @@ import {
   useUser,
   useFirestoreDocData,
 } from 'reactfire'
+
 import { SemanticCOLORS } from 'semantic-ui-react/dist/commonjs/generic'
 import { Collections } from '../../../../services/firebase'
 import { Match, MatchStatus } from '../../../../types/Match'
@@ -30,7 +31,7 @@ function MatchPreviewComponent({ id }: Props): ReactElement {
     })
   }
 
-  const fromNow = match.created
+  const matchStartFromNow = match.created
     ? formatDistanceToNow(match.created.toDate())
     : null
 
@@ -54,7 +55,9 @@ function MatchPreviewComponent({ id }: Props): ReactElement {
         </Card.Header>
       </Card.Content>
       <Card.Content>
-        {!!fromNow && <Label attached="bottom">Started {fromNow} ago</Label>}
+        {!!matchStartFromNow && (
+          <Label attached="bottom">Started {matchStartFromNow} ago</Label>
+        )}
 
         <Button onClick={handleAcceptGame} positive fluid>
           Let's play!

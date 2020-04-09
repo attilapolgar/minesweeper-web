@@ -11,7 +11,7 @@ export default function ProfilePage(): ReactElement | null {
   return (
     <Grid centered>
       <Grid.Row>
-        <ProfileCard id={user.uid} editable />
+        <ProfileCard id={user.uid} editable={!user.isAnonymous} />
       </Grid.Row>
     </Grid>
   )
