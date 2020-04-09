@@ -9,6 +9,7 @@ import {
 } from 'reactfire'
 
 import { SemanticCOLORS } from 'semantic-ui-react/dist/commonjs/generic'
+import { useHistory } from 'react-router-dom'
 import { Collections } from '../../../../services/firebase'
 import { Match, MatchStatus } from '../../../../types/Match'
 import ProfileBadge from '../../../profile/components/ProfileBadge'
@@ -20,20 +21,26 @@ type Props = {
 
 function MatchPreviewComponent({ id }: Props): ReactElement {
   const { uid } = useUser()
+  const history = useHistory()
   const matchRef = useFirestore().collection(Collections.MATCHES).doc(id)
-  const match: Match = useFirestoreDocData(matchRef)
+  const match: Match = useFirestoreDocData(matchRef, { idField: 'id' })
+  const imPlaying = match.players.includes(uid)
 
-  function handleAcceptGame(): void {
-    matchRef.set({
-      ...match,
-      players: match.players.concat([uid]),
-      status: MatchStatus.READY_TO_START,
-    })
+  function handleAcceptGame() {
+    if (!imPlaying) {
+      matchRef.set({
+        ...match,
+        players: match.players.concat([uid]),
+        status: MatchStatus.READY_TO_START,
+      })
+    }
   }
 
-  const matchStartFromNow = match.created
-    ? formatDistanceToNow(match.created.toDate())
-    : null
+  function handleGoTomatch() {
+    history.push(`/match/${match.id}`)
+  }
+
+  const matchStartFromNow = formatDistanceToNow(match.created.toDate())
 
   return (
     <Card style={{ marginBottom: 20 }}>
@@ -55,13 +62,27 @@ function MatchPreviewComponent({ id }: Props): ReactElement {
         </Card.Header>
       </Card.Content>
       <Card.Content>
-        {!!matchStartFromNow && (
-          <Label attached="bottom">Started {matchStartFromNow} ago</Label>
-        )}
+        {match.status === MatchStatus.WAITING &&
+          (imPlaying ? (
+            <Button onClick={handleGoTomatch} positive fluid>
+              Go to match
+            </Button>
+          ) : (
+            <Button onClick={handleAcceptGame} positive fluid>
+              Let's play!
+            </Button>
+          ))}
 
-        <Button onClick={handleAcceptGame} positive fluid>
-          Let's play!
-        </Button>
+        {(match.status === MatchStatus.READY_TO_START ||
+          match.status === MatchStatus.STARTED) &&
+          imPlaying && (
+            <Button onClick={handleGoTomatch} positive fluid>
+              Go to match
+            </Button>
+          )}
+      </Card.Content>
+      <Card.Content>
+        <Label attached="bottom">Started {matchStartFromNow} ago</Label>
       </Card.Content>
     </Card>
   )

@@ -1,7 +1,6 @@
 export enum ProtectedRoutes {
   PROFILE = '/profile',
   PUBLIC_PROFILE = '/profile/:userId',
-  LOBBY = '/',
-  MATCHES = '/matches/',
+  LOBBY = '/lobby',
   MATCH = '/match/:matchId',
 }

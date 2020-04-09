@@ -22,12 +22,6 @@ export default function AppHeader(): ReactElement {
       >
         <Link to={ProtectedRoutes.LOBBY}>Lobby</Link>
       </Menu.Item>
-      <Menu.Item
-        name="matches"
-        active={location.pathname === ProtectedRoutes.MATCHES}
-      >
-        <Link to={ProtectedRoutes.MATCHES}>Current matches</Link>
-      </Menu.Item>
 
       <Menu.Item position="right">
         <NewGameButton />
