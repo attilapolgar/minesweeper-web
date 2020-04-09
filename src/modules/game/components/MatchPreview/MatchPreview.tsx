@@ -1,17 +1,17 @@
 import React, { ReactElement } from 'react'
 import { Card, Placeholder, Image, Label, Button } from 'semantic-ui-react'
 import { formatDistanceToNow } from 'date-fns'
-import { Collections } from '../../../../services/firebase'
 import {
   useFirestore,
   SuspenseWithPerf,
   useUser,
   useFirestoreDocData,
 } from 'reactfire'
-import { Match, MatchStatus } from '../../../../types/Match'
-import headerImage from './header-image.png'
-import ProfileBadge from '../../../profile/components/ProfileCard/ProfileBadge'
 import { SemanticCOLORS } from 'semantic-ui-react/dist/commonjs/generic'
+import { Collections } from '../../../../services/firebase'
+import { Match, MatchStatus } from '../../../../types/Match'
+import ProfileBadge from '../../../profile/components/ProfileBadge'
+import headerImage from './header-image.png'
 
 type Props = {
   id: string

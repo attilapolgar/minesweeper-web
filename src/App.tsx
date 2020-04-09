@@ -10,6 +10,7 @@ import { auth } from './services/firebase'
 import AppHeader from './components/AppHeader'
 import MatchesPage from './modules/game/pages/MatchesPage'
 import MatchPage from './modules/game/pages/MatchPage'
+import PublicProfile from './modules/profile/pages/PublicProfile'
 
 export default function App(): ReactElement {
   return (
@@ -20,12 +21,19 @@ export default function App(): ReactElement {
           <Route exact path={ProtectedRoutes.LOBBY}>
             <LobbyPage />
           </Route>
+
           <Route exact path={ProtectedRoutes.PROFILE}>
             <ProfilePage />
           </Route>
+
+          <Route path={ProtectedRoutes.PUBLIC_PROFILE}>
+            <PublicProfile />
+          </Route>
+
           <Route path={ProtectedRoutes.MATCHES}>
             <MatchesPage />
           </Route>
+
           <Route path={ProtectedRoutes.MATCH}>
             <MatchPage />
           </Route>

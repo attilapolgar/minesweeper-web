@@ -1,16 +1,15 @@
 import React, { ReactElement, useState, ChangeEvent, useEffect } from 'react'
-import { useUser, useFirestore, useFirestoreDocData } from 'reactfire'
+import { useFirestore, useFirestoreDocData, SuspenseWithPerf } from 'reactfire'
 import { Form, Button, Card, Image, InputOnChangeData } from 'semantic-ui-react'
-import { User as FirebaseUser } from 'firebase'
 
 import { Collections } from '../../../../services/firebase'
 import { User } from '../../../../types/User'
 
-export default function ProfileCard(): ReactElement {
-  const user = useUser<FirebaseUser>()
-  const userDetailsRef = useFirestore()
-    .collection(Collections.USERS)
-    .doc(user.uid)
+type Props = { id?: string; editable?: boolean }
+
+function ProfileCardComponent({ id, editable = false }: Props): ReactElement {
+  const userDetailsRef = useFirestore().collection(Collections.USERS).doc(id)
+
   const { name, description, avatarUrl }: User = useFirestoreDocData(
     userDetailsRef,
   )
@@ -20,6 +19,7 @@ export default function ProfileCard(): ReactElement {
     description,
     avatarUrl,
   })
+
   function handleSave(): void {
     userDetailsRef.set({
       name: localData.name,
@@ -69,9 +69,11 @@ export default function ProfileCard(): ReactElement {
             name
           )}
         </Card.Header>
+
         <Card.Meta>
-          <span className="date">Joined in 2020</span>
+          <span className="date">Joined in 2020 january</span>
         </Card.Meta>
+
         <Card.Description>
           {editMode ? (
             <Form.Input
@@ -88,21 +90,31 @@ export default function ProfileCard(): ReactElement {
           )}
         </Card.Description>
       </Card.Content>
-      <Card.Content extra>
-        {editMode ? (
-          <Button.Group>
-            <Button positive onClick={handleSave}>
-              Save
+      {editable && (
+        <Card.Content extra>
+          {editMode ? (
+            <Button.Group>
+              <Button positive onClick={handleSave}>
+                Save
+              </Button>
+              <Button.Or />
+              <Button onClick={handleCancel}>Cancel</Button>
+            </Button.Group>
+          ) : (
+            <Button icon positive onClick={handleEdit}>
+              Edit
             </Button>
-            <Button.Or />
-            <Button onClick={handleCancel}>Cancel</Button>
-          </Button.Group>
-        ) : (
-          <Button icon positive onClick={handleEdit}>
-            Edit
-          </Button>
-        )}
-      </Card.Content>
+          )}
+        </Card.Content>
+      )}
     </Card>
+  )
+}
+
+export default function ProfileCard({ id, editable }: Props) {
+  return (
+    <SuspenseWithPerf fallback="loading" traceId="profile_card_load">
+      <ProfileCardComponent id={id} editable={editable} />
+    </SuspenseWithPerf>
   )
 }
