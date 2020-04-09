@@ -8,35 +8,36 @@ import NewGameButton from '../../modules/game/components/NewGameButton'
 export default function AppHeader(): ReactElement {
   const location = useLocation()
   return (
-    <Menu>
+    <Menu pointing>
       <Menu.Item
-        name="profile"
+        as={Link}
+        name="Home"
         active={location.pathname === ProtectedRoutes.PROFILE}
-      >
-        <Link to={ProtectedRoutes.PROFILE}>Profile</Link>
-      </Menu.Item>
+        to={ProtectedRoutes.PROFILE}
+      />
 
       <Menu.Item
-        name="lobby"
+        as={Link}
+        name="Lobby"
         active={location.pathname === ProtectedRoutes.LOBBY}
-      >
-        <Link to={ProtectedRoutes.LOBBY}>Lobby</Link>
-      </Menu.Item>
+        to={ProtectedRoutes.LOBBY}
+      />
 
-      <Menu.Item position="right">
-        <NewGameButton />
-
-        <Button
-          icon
-          labelPosition="left"
-          onClick={(): void => {
-            auth.signOut()
-          }}
-        >
-          Sign out
-          <Icon name="log out" />
-        </Button>
-      </Menu.Item>
+      <Menu.Menu position="right">
+        <Menu.Item>
+          <NewGameButton />
+        </Menu.Item>
+        <Menu.Item>
+          <Button
+            icon
+            onClick={(): void => {
+              auth.signOut()
+            }}
+          >
+            <Icon name="log out" />
+          </Button>
+        </Menu.Item>
+      </Menu.Menu>
     </Menu>
   )
 }

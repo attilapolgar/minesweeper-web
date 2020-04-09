@@ -4,6 +4,7 @@ export enum MatchStatus {
   WAITING = 'WAITING',
   READY_TO_START = 'READY_TO_START',
   STARTED = 'STARTED',
+  FINISHED = 'FINISHED',
 }
 
 export type Match = {

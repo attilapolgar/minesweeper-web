@@ -11,7 +11,7 @@ export default function MatchPreviewList({
   return (
     <Grid columns={3}>
       <Grid.Row>
-        {!matches.length && 'Currently there are no open matches.'}
+        {!matches.length && <Grid.Column>No matches here</Grid.Column>}
         {matches.map((match) => (
           <Grid.Column key={match.id}>
             <MatchPreview id={match.id} />

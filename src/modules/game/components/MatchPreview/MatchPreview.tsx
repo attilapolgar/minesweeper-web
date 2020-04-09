@@ -40,7 +40,8 @@ function MatchPreviewComponent({ id }: Props): ReactElement {
     history.push(`/match/${match.id}`)
   }
 
-  const matchStartFromNow = formatDistanceToNow(match.created.toDate())
+  const matchStartFromNow =
+    match.created && formatDistanceToNow(match.created.toDate())
 
   return (
     <Card style={{ marginBottom: 20 }}>
@@ -81,9 +82,11 @@ function MatchPreviewComponent({ id }: Props): ReactElement {
             </Button>
           )}
       </Card.Content>
-      <Card.Content>
-        <Label attached="bottom">Started {matchStartFromNow} ago</Label>
-      </Card.Content>
+      {!!matchStartFromNow && (
+        <Card.Content>
+          <Label attached="bottom">Started {matchStartFromNow} ago</Label>
+        </Card.Content>
+      )}
     </Card>
   )
 }
