@@ -14,7 +14,7 @@ export default function ProfileBadge({
 }): ReactElement {
   const history = useHistory()
   const ref = useFirestore().collection(Collections.USERS).doc(id)
-  const { name = 'Anonymous', avatarUrl }: User = useFirestoreDocDataOnce(ref)
+  const { name = 'Guest', avatarUrl }: User = useFirestoreDocDataOnce(ref)
 
   function handleClick() {
     history.push(`/profile/${id}`)
