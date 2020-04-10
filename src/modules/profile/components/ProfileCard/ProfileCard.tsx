@@ -1,6 +1,14 @@
 import React, { ReactElement, useState, ChangeEvent, useEffect } from 'react'
 import { useFirestore, useFirestoreDocData, SuspenseWithPerf } from 'reactfire'
-import { Form, Button, Card, Image, InputOnChangeData } from 'semantic-ui-react'
+import {
+  Form,
+  Button,
+  Card,
+  Image,
+  InputOnChangeData,
+  Dimmer,
+  Loader,
+} from 'semantic-ui-react'
 import { formatDistanceToNow } from 'date-fns'
 
 import { Collections } from '../../../../services/firebase'
@@ -14,14 +22,8 @@ function ProfileCardComponent({ id, editable = false }: Props): ReactElement {
 
   const user: User = useFirestoreDocData(userDetailsRef)
 
-  const { name = 'Guest', description, avatarUrl } = user
-
   const [editMode, setEditMode] = useState(false)
-  const [localData, setLocalData] = useState({
-    name,
-    description,
-    avatarUrl,
-  })
+  const [localData, setLocalData] = useState(user)
 
   function handleSave(): void {
     userDetailsRef.set({
@@ -52,11 +54,14 @@ function ProfileCardComponent({ id, editable = false }: Props): ReactElement {
 
   function handleCancel(): void {
     setEditMode(false)
-    setLocalData({ name, description, avatarUrl })
+    setLocalData(user)
   }
 
   return (
     <Card style={{ textAlign: 'left' }}>
+      <Dimmer active={!user.name}>
+        <Loader indeterminate>Preparing Files</Loader>
+      </Dimmer>
       <Image src={localData.avatarUrl} />
       <Card.Content>
         <Card.Header>
@@ -69,7 +74,7 @@ function ProfileCardComponent({ id, editable = false }: Props): ReactElement {
               onChange={handleChange}
             />
           ) : (
-            name
+            user.name || ''
           )}
         </Card.Header>
 
@@ -85,7 +90,7 @@ function ProfileCardComponent({ id, editable = false }: Props): ReactElement {
               onChange={handleChange}
             />
           ) : (
-            description || `No motto yet.`
+            user.description || ''
           )}
         </Card.Description>
       </Card.Content>
@@ -123,9 +128,13 @@ function JoinInfo({ user }: { user: User }) {
     ? formatDistanceToNow(user.created.toDate())
     : null
 
-  return joinedFromNow ? (
+  return (
     <Card.Meta>
-      <span className="date">Joined {joinedFromNow} ago</span>
+      {joinedFromNow ? (
+        <span className="date">Joined {joinedFromNow} ago</span>
+      ) : (
+        ''
+      )}
     </Card.Meta>
-  ) : null
+  )
 }

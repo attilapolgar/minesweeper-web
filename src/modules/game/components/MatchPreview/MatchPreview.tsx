@@ -54,11 +54,7 @@ function MatchPreviewComponent({ id }: Props): ReactElement {
         <Image src={headerImage} floated="left" size="tiny" />
         <Card.Header>
           {match.players.map((playerId) => (
-            <ProfileBadge
-              id={playerId}
-              key={playerId}
-              owner={match.owner === playerId}
-            />
+            <ProfileBadge id={playerId} key={playerId} />
           ))}
         </Card.Header>
       </Card.Content>

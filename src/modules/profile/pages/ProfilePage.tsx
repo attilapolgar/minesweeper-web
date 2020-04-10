@@ -31,7 +31,7 @@ export default function ProfilePage(): ReactElement | null {
     <Grid centered>
       <Grid.Row columns={2}>
         <Grid.Column width={5}>
-          <ProfileCard id={user.uid} editable={!user.isAnonymous} />
+          <ProfileCard id={user.uid} editable />
         </Grid.Column>
         <Grid.Column width={11}>
           <Header>Started</Header>

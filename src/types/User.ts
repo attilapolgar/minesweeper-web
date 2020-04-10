@@ -6,6 +6,7 @@ export type User = {
   name: string
   description: string
   avatarUrl: string
+  rank?: string
   created: TimeStamp
 }
 
