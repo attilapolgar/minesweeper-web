@@ -22,3 +22,7 @@ export enum Collections {
   MATCHES = 'matches',
   USERS = 'users',
 }
+
+export enum Functions {
+  UPDATE_USER = 'updateUser',
+}

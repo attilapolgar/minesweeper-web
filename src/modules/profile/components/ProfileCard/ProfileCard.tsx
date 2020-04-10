@@ -1,5 +1,10 @@
 import React, { ReactElement, useState, ChangeEvent, useEffect } from 'react'
-import { useFirestore, useFirestoreDocData, SuspenseWithPerf } from 'reactfire'
+import {
+  useFirestore,
+  useFirestoreDocData,
+  SuspenseWithPerf,
+  useFunctions,
+} from 'reactfire'
 import {
   Form,
   Button,
@@ -11,7 +16,7 @@ import {
 } from 'semantic-ui-react'
 import { formatDistanceToNow } from 'date-fns'
 
-import { Collections } from '../../../../services/firebase'
+import { Collections, Functions } from '../../../../services/firebase'
 import { User } from '../../../../types/User'
 import { generateAvatarUrl } from '../../profile.utils'
 
@@ -19,19 +24,32 @@ type Props = { id?: string; editable?: boolean }
 
 function ProfileCardComponent({ id, editable = false }: Props): ReactElement {
   const userDetailsRef = useFirestore().collection(Collections.USERS).doc(id)
+  const updateUser = useFunctions().httpsCallable(Functions.UPDATE_USER)
 
   const user: User = useFirestoreDocData(userDetailsRef)
 
   const [editMode, setEditMode] = useState(false)
+  const [pending, setPending] = useState(false)
   const [localData, setLocalData] = useState(user)
 
-  function handleSave(): void {
-    userDetailsRef.set({
-      name: localData.name,
-      description: localData.description,
-      avatarUrl: generateAvatarUrl(localData.name),
-    })
-    setEditMode(false)
+  useEffect(() => {
+    setLocalData(user)
+  }, [user])
+
+  async function handleSave() {
+    try {
+      setPending(true)
+      await updateUser({
+        name: localData.name,
+        description: localData.description,
+        avatarUrl: generateAvatarUrl(localData.name),
+      })
+    } catch (error) {
+      console.log('error', error)
+    } finally {
+      setEditMode(false)
+      setPending(false)
+    }
   }
 
   function handleChange(
@@ -59,8 +77,10 @@ function ProfileCardComponent({ id, editable = false }: Props): ReactElement {
 
   return (
     <Card style={{ textAlign: 'left' }}>
-      <Dimmer active={!user.name}>
-        <Loader indeterminate>Preparing Files</Loader>
+      <Dimmer active={!user.name || pending}>
+        <Loader indeterminate>
+          {pending ? 'Updating' : 'Preparing'} your profile
+        </Loader>
       </Dimmer>
       <Image src={localData.avatarUrl} />
       <Card.Content>
@@ -90,7 +110,7 @@ function ProfileCardComponent({ id, editable = false }: Props): ReactElement {
               onChange={handleChange}
             />
           ) : (
-            user.description || ''
+            user.description || 'No motto set.'
           )}
         </Card.Description>
       </Card.Content>
