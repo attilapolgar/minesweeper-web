@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useState } from 'react'
 import { Card, Placeholder, Image, Label, Button } from 'semantic-ui-react'
 import { formatDistanceToNow } from 'date-fns'
 import {
@@ -6,11 +6,12 @@ import {
   SuspenseWithPerf,
   useUser,
   useFirestoreDocData,
+  useFunctions,
 } from 'reactfire'
 
 import { SemanticCOLORS } from 'semantic-ui-react/dist/commonjs/generic'
 import { useHistory } from 'react-router-dom'
-import { Collections } from '../../../../services/firebase'
+import { Collections, Functions } from '../../../../services/firebase'
 import { Match, MatchStatus } from '../../../../types/Match'
 import ProfileBadge from '../../../profile/components/ProfileBadge'
 import headerImage from './header-image.png'
@@ -22,17 +23,21 @@ type Props = {
 function MatchPreviewComponent({ id }: Props): ReactElement {
   const { uid } = useUser()
   const history = useHistory()
+  const [pending, setPending] = useState(false)
+  const joinMatch = useFunctions().httpsCallable(Functions.JOIN_MATCH)
+
   const matchRef = useFirestore().collection(Collections.MATCHES).doc(id)
   const match: Match = useFirestoreDocData(matchRef, { idField: 'id' })
   const imPlaying = match.players.includes(uid)
 
-  function handleAcceptGame() {
-    if (!imPlaying) {
-      matchRef.set({
-        ...match,
-        players: match.players.concat([uid]),
-        status: MatchStatus.READY_TO_START,
-      })
+  async function handleAcceptGame() {
+    try {
+      setPending(true)
+      await joinMatch({ matchId: id })
+    } catch (error) {
+      console.log('error', error)
+    } finally {
+      setPending(false)
     }
   }
 
@@ -65,7 +70,7 @@ function MatchPreviewComponent({ id }: Props): ReactElement {
               Go to match
             </Button>
           ) : (
-            <Button onClick={handleAcceptGame} positive fluid>
+            <Button onClick={handleAcceptGame} positive fluid loading={pending}>
               Let's play!
             </Button>
           ))}

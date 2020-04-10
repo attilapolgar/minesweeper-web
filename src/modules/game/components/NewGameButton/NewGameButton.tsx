@@ -11,7 +11,8 @@ export default function NewGameButton(): ReactElement {
   async function handleNewGamePressed() {
     try {
       setPending(true)
-      await createMatch()
+      const match = await createMatch()
+      console.log('match', match)
     } catch (error) {
       console.log('error', error)
     } finally {
@@ -28,7 +29,7 @@ export default function NewGameButton(): ReactElement {
       loading={pending}
     >
       <Icon name="plus" />
-      New game
+      New match
     </Button>
   )
 }
