@@ -11,7 +11,7 @@ import MatchPreviewList from '../../game/components/MatchPreviewList'
 export default function ProfilePage(): ReactElement | null {
   const user = useUser<FirebaseUser>()
   const matchesRef = useFirestore().collection(Collections.MATCHES)
-  const myMatchesRef = matchesRef.where('players', 'array-contains', user.uid)
+  const myMatchesRef = matchesRef.where('playerIds', 'array-contains', user.uid)
 
   const waiting = myMatchesRef.where('status', '==', MatchStatus.WAITING)
   const started = myMatchesRef.where('status', '==', MatchStatus.STARTED)

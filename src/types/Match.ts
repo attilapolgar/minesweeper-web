@@ -7,8 +7,21 @@ export enum MatchStatus {
   FINISHED = 'FINISHED',
 }
 
+export enum MatchPlayerStatus {
+  JOINED = 'JOINED',
+  READY = 'READY',
+}
+
+export type MatchPlayer = {
+  userId: string
+  score: number
+  color: string
+  status: MatchPlayerStatus
+}
+
 export type Match = {
-  players: string[]
+  players: MatchPlayer[]
+  playerIds: string[]
   id: string
   owner: string
   status: MatchStatus

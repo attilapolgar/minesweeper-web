@@ -27,4 +27,5 @@ export enum Functions {
   UPDATE_USER = 'updateUser',
   CREATE_MATCH = 'createMatch',
   JOIN_MATCH = 'joinMatch',
+  READY_FOR_MATCH = 'readyForMatch',
 }

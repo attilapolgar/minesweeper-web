@@ -28,12 +28,13 @@ function MatchPreviewComponent({ id }: Props): ReactElement {
 
   const matchRef = useFirestore().collection(Collections.MATCHES).doc(id)
   const match: Match = useFirestoreDocData(matchRef, { idField: 'id' })
-  const imPlaying = match.players.includes(uid)
+  const imPlaying = match.playerIds.includes(uid)
 
   async function handleAcceptGame() {
     try {
       setPending(true)
       await joinMatch({ matchId: id })
+      history.push(`/match/${match.id}`)
     } catch (error) {
       console.log('error', error)
     } finally {
@@ -58,8 +59,8 @@ function MatchPreviewComponent({ id }: Props): ReactElement {
       <Card.Content>
         <Image src={headerImage} floated="left" size="tiny" />
         <Card.Header>
-          {match.players.map((playerId) => (
-            <ProfileBadge id={playerId} key={playerId} />
+          {match.players.map(({ userId }) => (
+            <ProfileBadge id={userId} key={userId} />
           ))}
         </Card.Header>
       </Card.Content>
