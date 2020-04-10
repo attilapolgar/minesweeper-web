@@ -25,4 +25,5 @@ export enum Collections {
 
 export enum Functions {
   UPDATE_USER = 'updateUser',
+  CREATE_MATCH = 'createMatch',
 }

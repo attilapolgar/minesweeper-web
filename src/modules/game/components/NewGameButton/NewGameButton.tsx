@@ -1,26 +1,32 @@
-import React, { ReactElement } from 'react'
-import { useFirestore, useUser } from 'reactfire'
-import { User, firestore } from 'firebase'
+import React, { ReactElement, useState } from 'react'
+import { useFunctions } from 'reactfire'
 import { Button, Icon } from 'semantic-ui-react'
 
-import { Collections } from '../../../../services/firebase'
-import { MatchStatus } from '../../../../types/Match'
+import { Functions } from '../../../../services/firebase'
 
 export default function NewGameButton(): ReactElement {
-  const matchRef = useFirestore().collection(Collections.MATCHES)
-  const user = useUser<User>()
+  const createMatch = useFunctions().httpsCallable(Functions.CREATE_MATCH)
+  const [pending, setPending] = useState(false)
 
-  function handleNewGamePressed(): void {
-    matchRef.add({
-      players: [user.uid],
-      owner: user.uid,
-      status: MatchStatus.WAITING,
-      created: firestore.FieldValue.serverTimestamp(),
-    })
+  async function handleNewGamePressed() {
+    try {
+      setPending(true)
+      await createMatch()
+    } catch (error) {
+      console.log('error', error)
+    } finally {
+      setPending(false)
+    }
   }
 
   return (
-    <Button onClick={handleNewGamePressed} positive icon labelPosition="right">
+    <Button
+      onClick={handleNewGamePressed}
+      positive
+      icon
+      labelPosition="right"
+      loading={pending}
+    >
       <Icon name="plus" />
       New game
     </Button>

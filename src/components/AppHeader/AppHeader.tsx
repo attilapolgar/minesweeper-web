@@ -1,8 +1,7 @@
 import React, { ReactElement } from 'react'
 import { useLocation, Link } from 'react-router-dom'
-import { Menu, Button, Icon } from 'semantic-ui-react'
+import { Menu } from 'semantic-ui-react'
 import { ProtectedRoutes } from '../../modules/protected/protected.routes'
-import { auth } from '../../services/firebase'
 import NewGameButton from '../../modules/game/components/NewGameButton'
 
 export default function AppHeader(): ReactElement {
@@ -26,16 +25,6 @@ export default function AppHeader(): ReactElement {
       <Menu.Menu position="right">
         <Menu.Item>
           <NewGameButton />
-        </Menu.Item>
-        <Menu.Item>
-          <Button
-            icon
-            onClick={(): void => {
-              auth.signOut()
-            }}
-          >
-            <Icon name="log out" />
-          </Button>
         </Menu.Item>
       </Menu.Menu>
     </Menu>

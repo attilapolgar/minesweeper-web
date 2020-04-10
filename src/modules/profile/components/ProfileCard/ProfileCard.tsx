@@ -13,10 +13,11 @@ import {
   InputOnChangeData,
   Dimmer,
   Loader,
+  Icon,
 } from 'semantic-ui-react'
 import { formatDistanceToNow } from 'date-fns'
 
-import { Collections, Functions } from '../../../../services/firebase'
+import { Collections, Functions, auth } from '../../../../services/firebase'
 import { User } from '../../../../types/User'
 import { generateAvatarUrl } from '../../profile.utils'
 
@@ -115,21 +116,35 @@ function ProfileCardComponent({ id, editable = false }: Props): ReactElement {
         </Card.Description>
       </Card.Content>
       {editable && (
-        <Card.Content extra>
-          {editMode ? (
-            <Button.Group>
-              <Button positive onClick={handleSave}>
-                Save
+        <>
+          <Card.Content extra>
+            {editMode ? (
+              <Button.Group>
+                <Button positive onClick={handleSave}>
+                  Save
+                </Button>
+                <Button.Or />
+                <Button onClick={handleCancel}>Cancel</Button>
+              </Button.Group>
+            ) : (
+              <Button icon positive onClick={handleEdit}>
+                Edit
               </Button>
-              <Button.Or />
-              <Button onClick={handleCancel}>Cancel</Button>
-            </Button.Group>
-          ) : (
-            <Button icon positive onClick={handleEdit}>
-              Edit
+            )}
+          </Card.Content>
+          <Card.Content>
+            <Button
+              icon
+              labelPosition="right"
+              onClick={(): void => {
+                auth.signOut()
+              }}
+            >
+              <Icon name="log out" />
+              Sign out
             </Button>
-          )}
-        </Card.Content>
+          </Card.Content>
+        </>
       )}
     </Card>
   )
