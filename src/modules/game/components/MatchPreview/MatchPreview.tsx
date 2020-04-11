@@ -1,5 +1,12 @@
 import React, { ReactElement, useState } from 'react'
-import { Card, Placeholder, Image, Label, Button } from 'semantic-ui-react'
+import {
+  Card,
+  Placeholder,
+  Image,
+  Label,
+  Button,
+  Icon,
+} from 'semantic-ui-react'
 import { formatDistanceToNow } from 'date-fns'
 import {
   useFirestore,
@@ -47,7 +54,7 @@ function MatchPreviewComponent({ id }: Props): ReactElement {
   }
 
   const matchStartFromNow =
-    match.created && formatDistanceToNow(match.created.toDate())
+    match.createdAt && formatDistanceToNow(match.createdAt.toDate())
 
   return (
     <Card style={{ marginBottom: 20 }}>
@@ -71,8 +78,9 @@ function MatchPreviewComponent({ id }: Props): ReactElement {
               Go to match
             </Button>
           ) : (
-            <Button onClick={handleAcceptGame} positive fluid loading={pending}>
-              Let's play!
+            <Button onClick={handleAcceptGame} fluid loading={pending}>
+              <Icon name="play" />
+              Join match
             </Button>
           ))}
 

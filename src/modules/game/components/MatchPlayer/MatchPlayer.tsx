@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react'
+import React, { useState } from 'react'
 import {
   SuspenseWithPerf,
   useFirestore,
@@ -20,7 +20,7 @@ type Props = {
   match: Match
 }
 
-export function MatchPlayerComponent({ player, match }: Props): ReactElement {
+export function MatchPlayerComponent({ player, match }: Props) {
   const { uid } = useUser()
   const [pending, setPending] = useState(false)
   const readyForMatch = useFunctions().httpsCallable(Functions.READY_FOR_MATCH)
@@ -43,12 +43,19 @@ export function MatchPlayerComponent({ player, match }: Props): ReactElement {
   }
 
   const isMe = uid === player.userId
+  const isPlayersTurn = player.userId === match.activePlayer
 
   return (
-    <Card style={{ textAlign: 'left' }}>
+    <Card
+      style={{ textAlign: 'left' }}
+      raised={isPlayersTurn}
+      color={player.color}
+    >
       <Image src={user.avatarUrl} />
       <Card.Content>
-        <Card.Header style={{ textAlign: 'center' }}>{user.name}</Card.Header>
+        <Card.Header style={{ textAlign: 'center' }}>{`${user.name}${
+          isPlayersTurn ? "'s turn" : ''
+        }`}</Card.Header>
       </Card.Content>
       <Card.Content>
         <Card.Header style={{ textAlign: 'center' }}>

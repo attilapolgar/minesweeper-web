@@ -15,7 +15,7 @@ export enum MatchPlayerStatus {
 export type MatchPlayer = {
   userId: string
   score: number
-  color: string
+  color: 'red' | 'blue'
   status: MatchPlayerStatus
 }
 
@@ -23,7 +23,8 @@ export type Match = {
   players: MatchPlayer[]
   playerIds: string[]
   id: string
-  owner: string
   status: MatchStatus
-  created: TimeStamp
+  activePlayer: string | null
+  createdBy: string
+  createdAt: TimeStamp
 }

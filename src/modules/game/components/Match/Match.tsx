@@ -62,7 +62,7 @@ export default function Match({ id }: Props): ReactElement {
           )}
           {canIJoin && (
             <Button onClick={handleAcceptGame} positive fluid loading={pending}>
-              Let's play!
+              Join match
             </Button>
           )}
         </Grid.Column>
@@ -89,7 +89,6 @@ type BoardType = {
 }
 
 function Board({ data }: { data: BoardType }) {
-  console.log('Board', data)
   return (
     <BoardWrapper>
       {data.fields.map((field) => (
@@ -109,7 +108,9 @@ function Board({ data }: { data: BoardType }) {
               color={field.color === 'red' ? 'red' : 'blue'}
             />
           )}
-          {!field.found && field.mine && <Icon fitted name="bomb" />}
+          {!field.found && field.mine && (
+            <Icon fitted name="bomb" color="black" />
+          )}
           {!field.found && !field.mine && field.number}
         </Field>
       ))}
