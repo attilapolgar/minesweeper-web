@@ -28,4 +28,5 @@ export enum Functions {
   CREATE_MATCH = 'createMatch',
   JOIN_MATCH = 'joinMatch',
   READY_FOR_MATCH = 'readyForMatch',
+  TRIGGER_FIELD = 'triggerField',
 }

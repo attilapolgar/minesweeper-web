@@ -27,4 +27,5 @@ export type Match = {
   activePlayer: string | null
   createdBy: string
   createdAt: TimeStamp
+  view: string
 }

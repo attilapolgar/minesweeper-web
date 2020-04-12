@@ -30,7 +30,6 @@ export function MatchPlayerComponent({ player, match }: Props) {
     .doc(player.userId)
 
   const user: User = useFirestoreDocData(userDetailsRef)
-  console.log('match', match)
   async function handleReadyForMatch() {
     try {
       setPending(true)
@@ -46,11 +45,7 @@ export function MatchPlayerComponent({ player, match }: Props) {
   const isPlayersTurn = player.userId === match.activePlayer
 
   return (
-    <Card
-      style={{ textAlign: 'left' }}
-      raised={isPlayersTurn}
-      color={player.color}
-    >
+    <Card style={{ textAlign: 'left' }} color={player.color}>
       <Image src={user.avatarUrl} />
       <Card.Content>
         <Card.Header style={{ textAlign: 'center' }}>{`${user.name}${
