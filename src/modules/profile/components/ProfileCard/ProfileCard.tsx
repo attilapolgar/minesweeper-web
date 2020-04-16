@@ -3,7 +3,7 @@ import {
   useFirestore,
   useFirestoreDocData,
   SuspenseWithPerf,
-  useFunctions,
+  useFirebaseApp,
 } from 'reactfire'
 import {
   Form,
@@ -25,7 +25,9 @@ type Props = { id?: string; editable?: boolean }
 
 function ProfileCardComponent({ id, editable = false }: Props): ReactElement {
   const userDetailsRef = useFirestore().collection(Collections.USERS).doc(id)
-  const updateUser = useFunctions().httpsCallable(Functions.UPDATE_USER)
+  const updateUser = useFirebaseApp()
+    .functions('europe-west3')
+    .httpsCallable(Functions.UPDATE_USER)
 
   const user: User = useFirestoreDocData(userDetailsRef)
 

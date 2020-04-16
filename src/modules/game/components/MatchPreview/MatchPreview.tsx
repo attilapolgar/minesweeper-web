@@ -13,7 +13,7 @@ import {
   SuspenseWithPerf,
   useUser,
   useFirestoreDocData,
-  useFunctions,
+  useFirebaseApp,
 } from 'reactfire'
 
 import { SemanticCOLORS } from 'semantic-ui-react/dist/commonjs/generic'
@@ -31,7 +31,9 @@ function MatchPreviewComponent({ id }: Props): ReactElement {
   const { uid } = useUser()
   const history = useHistory()
   const [pending, setPending] = useState(false)
-  const joinMatch = useFunctions().httpsCallable(Functions.JOIN_MATCH)
+  const joinMatch = useFirebaseApp()
+    .functions('europe-west3')
+    .httpsCallable(Functions.JOIN_MATCH)
 
   const matchRef = useFirestore().collection(Collections.MATCHES).doc(id)
   const match: Match = useFirestoreDocData(matchRef, { idField: 'id' })

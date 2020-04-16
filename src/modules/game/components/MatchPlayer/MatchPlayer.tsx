@@ -4,7 +4,7 @@ import {
   useFirestore,
   useFirestoreDocData,
   useUser,
-  useFunctions,
+  useFirebaseApp,
 } from 'reactfire'
 import { Card, Image, Button } from 'semantic-ui-react'
 import { Collections, Functions } from '../../../../services/firebase'
@@ -23,7 +23,9 @@ type Props = {
 export function MatchPlayerComponent({ player, match }: Props) {
   const { uid } = useUser()
   const [pending, setPending] = useState(false)
-  const readyForMatch = useFunctions().httpsCallable(Functions.READY_FOR_MATCH)
+  const readyForMatch = useFirebaseApp()
+    .functions('europe-west3')
+    .httpsCallable(Functions.READY_FOR_MATCH)
 
   const userDetailsRef = useFirestore()
     .collection(Collections.USERS)

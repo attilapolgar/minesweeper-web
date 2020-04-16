@@ -1,11 +1,13 @@
 import React, { ReactElement, useState } from 'react'
-import { useFunctions } from 'reactfire'
+import { useFirebaseApp } from 'reactfire'
 import { Button, Icon } from 'semantic-ui-react'
 
 import { Functions } from '../../../../services/firebase'
 
 export default function NewGameButton(): ReactElement {
-  const createMatch = useFunctions().httpsCallable(Functions.CREATE_MATCH)
+  const createMatch = useFirebaseApp()
+    .functions('europe-west3')
+    .httpsCallable(Functions.CREATE_MATCH)
   const [pending, setPending] = useState(false)
 
   async function handleNewGamePressed() {

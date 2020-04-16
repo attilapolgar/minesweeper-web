@@ -3,7 +3,7 @@ import {
   useFirestore,
   useFirestoreDocData,
   useUser,
-  useFunctions,
+  useFirebaseApp,
 } from 'reactfire'
 import { Button, Grid, Icon, Header } from 'semantic-ui-react'
 import { User } from 'firebase'
@@ -24,8 +24,13 @@ export default function Match({ id }: Props): ReactElement | null {
   const remoteMatch: MatchType = useFirestoreDocData(matchRef, {
     idField: 'id',
   })
-  const joinMatch = useFunctions().httpsCallable(Functions.JOIN_MATCH)
-  const triggerField = useFunctions().httpsCallable(Functions.TRIGGER_FIELD)
+  const joinMatch = useFirebaseApp()
+    .functions('europe-west3')
+    .httpsCallable(Functions.JOIN_MATCH)
+
+  const triggerField = useFirebaseApp()
+    .functions('europe-west3')
+    .httpsCallable(Functions.TRIGGER_FIELD)
   const [pending, setPending] = useState(false)
   const [locked, setLocked] = useState(false)
 
